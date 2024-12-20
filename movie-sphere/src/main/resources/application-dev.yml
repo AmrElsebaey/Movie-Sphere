@@ -1,0 +1,38 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/movie_sphere
+    username: springstudent
+    password: springstudent
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+
+application:
+  security:
+    jwt:
+      secretKey: 92c9020ef7d92e560952808e67ad8527ddf131681cb04def89af23bc6c24b7ec
+      expiration: 86400000
+omdb:
+  api:
+    key: cfd7c75d
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+        web: TRACE
+        core: DEBUG
+    com:
+      fawry:
+        moviesphere:
+          security: DEBUG
+
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
