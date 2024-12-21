@@ -3,9 +3,13 @@ package com.fawry.moviesphere.movie;
 import com.fawry.moviesphere.exception.ResourceAlreadyExistsException;
 import com.fawry.moviesphere.exception.ResourceNotFoundException;
 import com.fawry.moviesphere.omdb.OMDBService;
+import com.fawry.moviesphere.pagination.PageResponse;
 import com.fawry.moviesphere.rating.Rating;
 import com.fawry.moviesphere.rating.RatingRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,12 +38,23 @@ public class MovieService {
         return movie;
     }
 
-    public List<Movie> getAllMovies() {
-        List<Movie> movies = movieRepository.findAll();
+    public PageResponse<Movie> getAllMovies(
+            Integer page,
+            Integer size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Movie> movies = movieRepository.findAll(pageable);
         if (movies.isEmpty()) {
             throw new ResourceNotFoundException("No movies found.");
         } else {
-            return movies;
+            return new PageResponse<>(
+                    movies.getContent(),
+                    movies.getNumber(),
+                    movies.getSize(),
+                    movies.getTotalElements(),
+                    movies.getTotalPages(),
+                    movies.isFirst(),
+                    movies.isLast());
         }
     }
 

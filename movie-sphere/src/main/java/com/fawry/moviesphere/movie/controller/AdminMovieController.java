@@ -4,8 +4,10 @@ package com.fawry.moviesphere.movie.controller;
 import com.fawry.moviesphere.movie.Movie;
 import com.fawry.moviesphere.movie.MovieService;
 import com.fawry.moviesphere.omdb.OMDBService;
+import com.fawry.moviesphere.pagination.PageResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,25 +16,28 @@ import java.util.List;
 @RestController
 @RequestMapping("admin/movies")
 @RequiredArgsConstructor
-@Tag(name = "Movie")
+@Tag(name = "Movie/Admin")
 public class AdminMovieController {
 
     private final OMDBService omdbService;
     private final MovieService movieService;
 
     @GetMapping
-    public List<Movie> searchMovies(@RequestParam("query") String query) {
-        return omdbService.searchMovies(query);
+    public ResponseEntity<PageResponse<Movie>> searchMovies(
+            @RequestParam("query") String query,
+            @RequestParam(value = "page", defaultValue = "0", required = false) Integer page,
+            @RequestParam(value = "size", defaultValue = "10", required = false) Integer size) {
+        return ResponseEntity.ok((omdbService.searchMovies(query,page, size)));
     }
 
     @GetMapping("/{imdbId}")
-    public Movie getMovie(@PathVariable("imdbId") String imdbId) {
-        return omdbService.getMovie(imdbId);
+    public ResponseEntity<Movie> getMovie(@PathVariable("imdbId") String imdbId) {
+        return ResponseEntity.ok(omdbService.getMovie(imdbId));
     }
 
     @PostMapping("/{imdbId}")
-    public Movie addMovie(@PathVariable("imdbId") String imdbId) {
-        return movieService.addMovie(imdbId);
+    public ResponseEntity<Movie> addMovie(@PathVariable("imdbId") String imdbId) {
+        return ResponseEntity.ok(movieService.addMovie(imdbId));
     }
 
     @DeleteMapping("/{movieId}")

@@ -1,0 +1,48 @@
+<body>
+  <div class="container" id="formContainer">
+    <div id="loginForm">
+      <div class="logo">
+        <svg viewBox="0 0 24 24">
+          <path
+            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-2-13v10l6-5z"
+          />
+        </svg>
+      </div>
+      <h1>Welcome to Movie Sphere</h1>
+      <form (ngSubmit)="login()">
+        <div class="form-group">
+          <label for="loginEmail">Email</label>
+          <input
+            type="email"
+            id="loginEmail"
+            [(ngModel)]="authRequest.email"
+            name="email"
+            placeholder="Enter your email"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="loginPassword">Password</label>
+          <input
+            type="password"
+            id="loginPassword"
+            [(ngModel)]="authRequest.password"
+            name="password"
+            placeholder="Enter your password"
+            required
+          />
+          <div *ngIf="errorMsg.length > 0" class="error-message">
+            <p *ngFor="let msg of errorMsg">{{ msg }}</p>
+          </div>
+        </div>
+        <button type="submit" class="btn">Login</button>
+      </form>
+      <div class="toggle-form">
+        <p>
+          Don't have an account?
+          <a href="javascript:void(0)" (click)="register()">Register</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</body>

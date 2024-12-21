@@ -1,0 +1,90 @@
+<body>
+  <div class="container">
+    <div class="logo">
+      <svg viewBox="0 0 24 24">
+        <path
+          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-2-13v10l6-5z"
+        />
+      </svg>
+    </div>
+    <h1>Join Movie Sphere</h1>
+    <form id="registerForm" (ngSubmit)="register()">
+      <div class="form-group">
+        <label for="firstName">First Name</label>
+        <input
+          type="text"
+          id="firstName"
+          name="firstName"
+          placeholder="First name"
+          [(ngModel)]="registerRequest.firstName"
+        />
+        <div *ngIf="errorMsg['firstName']" class="error-message">
+          {{ errorMsg["firstName"] }}
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="lastName">Last Name</label>
+        <input
+          type="text"
+          id="lastName"
+          name="lastName"
+          placeholder="Last name"
+          [(ngModel)]="registerRequest.lastName"
+        />
+        <div *ngIf="errorMsg['lastName']" class="error-message">
+          {{ errorMsg["lastName"] }}
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="Enter your email"
+          [(ngModel)]="registerRequest.email"
+        />
+        <div *ngIf="errorMsg['email']" class="error-message">
+          {{ errorMsg["email"] }}
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Enter your password"
+          [(ngModel)]="registerRequest.password"
+        />
+        <div *ngIf="errorMsg['password']" class="error-message">
+          {{ errorMsg["password"] }}
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="passwordConfirm">Confirm Password</label>
+        <input
+          type="password"
+          id="passwordConfirm"
+          name="passwordConfirm"
+          placeholder="Confirm your password"
+          [(ngModel)]="passwordConfirm"
+        />
+        <div *ngIf="errorMsg['passwordConfirm']" class="error-message">
+          {{ errorMsg["passwordConfirm"] }}
+        </div>
+        <div *ngIf="errorMsg['general']" class="error-message">
+          {{ errorMsg["general"] }}
+        </div>
+      </div>
+
+      <button type="submit" class="btn">Register</button>
+    </form>
+    <div class="toggle-form">
+      <p>
+        Already have an account?
+        <a href="javascript:void(0)" (click)="login()">Login</a>
+      </p>
+    </div>
+  </div>
+</body>

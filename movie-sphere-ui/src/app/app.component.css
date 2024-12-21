@@ -1,0 +1,15 @@
+:root {
+  --primary: #7b2cbf;
+  --secondary: #9d4edd;
+  --dark: #1a1a1a;
+  --light: #f8f9fa;
+  --error: #ff4d6d;
+}
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", system-ui, sans-serif;
+}

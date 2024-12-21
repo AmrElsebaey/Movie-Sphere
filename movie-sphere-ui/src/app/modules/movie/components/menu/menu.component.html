@@ -1,0 +1,44 @@
+<body>
+  <nav>
+    <div class="nav-container">
+      <a routerLink="/" class="brand">
+        <svg viewBox="0 0 24 24">
+          <path
+            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-2-13v10l6-5z"
+          />
+        </svg>
+        <span>Movie Sphere</span>
+      </a>
+
+      <span class="welcome-text">Welcome, {{ userName }}</span>
+
+      <div class="nav-links">
+        <a
+          *ngIf="isAdmin"
+          routerLink="/admin/dashboard"
+          routerLinkActive="active"
+          class="nav-link"
+          >Dashboard</a
+        >
+        <a routerLink="/movies" routerLinkActive="active" class="nav-link"
+          >Movies</a
+        >
+        <div class="search-container">
+          <input
+            type="text"
+            class="search-input"
+            placeholder="Search movies..."
+            [(ngModel)]="searchQuery"
+            (keyup.enter)="onSearch()"
+          />
+          <svg class="search-icon" viewBox="0 0 24 24">
+            <path
+              d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
+            />
+          </svg>
+        </div>
+        <button (click)="logout()" class="logout-btn">Logout</button>
+      </div>
+    </div>
+  </nav>
+</body>

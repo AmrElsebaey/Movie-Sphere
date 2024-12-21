@@ -1,0 +1,29 @@
+<div class="movie-card">
+  <div class="poster-container">
+    <img class="poster" [src]="movie.Poster" alt="{{ movie.Title }}" />
+  </div>
+  <div class="content">
+    <h2 class="title">{{ movie.Title }}</h2>
+    <div class="year">{{ movie.Year }}</div>
+    <div class="genre">{{ movie.Genre }}</div>
+    <p class="plot">{{ movie.Plot }}</p>
+    <div class="details">
+      <div class="detail-item">
+        <span class="detail-label">Director</span>
+        <span>{{ movie.Director }}</span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Actors</span>
+        <span>{{ movie.Actors }}</span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Language</span>
+        <span>{{ movie.Language }}</span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Awards</span>
+        <span>{{ movie.Awards }}</span>
+      </div>
+    </div>
+  </div>
+</div>
