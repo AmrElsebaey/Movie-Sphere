@@ -15,12 +15,16 @@
       <div class="nav-links">
         <a
           *ngIf="isAdmin"
-          routerLink="/admin/dashboard"
+          routerLink="/movies/admin/dashboard"
           routerLinkActive="active"
           class="nav-link"
           >Dashboard</a
         >
-        <a routerLink="/movies" routerLinkActive="active" class="nav-link"
+        <a
+          routerLink="/movies"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="nav-link"
           >Movies</a
         >
         <div class="search-container">

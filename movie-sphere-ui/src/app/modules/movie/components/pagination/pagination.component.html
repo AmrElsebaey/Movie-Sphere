@@ -1,0 +1,19 @@
+<div class="pagination" *ngIf="totalPages > 0 && totalPages != null">
+  <button (click)="onFirstPage.emit()" [disabled]="page === 0">« First</button>
+  <button (click)="onPreviousPage.emit()" [disabled]="page === 0">
+    ‹ Previous
+  </button>
+
+  <div class="page-numbers">
+    <button
+      *ngFor="let pageNum of getPageNumbers(page, totalPages)"
+      [ngClass]="{ active: pageNum === page }"
+      (click)="onPageChange.emit(pageNum)"
+    >
+      {{ pageNum + 1 }}
+    </button>
+  </div>
+
+  <button (click)="onNextPage.emit()" [disabled]="isLastPage">Next ›</button>
+  <button (click)="onLastPage.emit()" [disabled]="isLastPage">Last »</button>
+</div>

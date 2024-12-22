@@ -30,26 +30,16 @@
       </div>
     </div>
   </div>
-
-  <div class="pagination">
-    <button (click)="goToFirstPage()" [disabled]="page === 0">« First</button>
-    <button (click)="goToPreviousPage()" [disabled]="page === 0">
-      ‹ Previous
-    </button>
-
-    <div class="page-numbers">
-      <button
-        *ngFor="let pageNum of getPageNumbers(page, movieResponse.totalPages || 0)"
-        [ngClass]="{ active: pageNum === page }"
-        (click)="gotToPage(pageNum)"
-      >
-        {{ pageNum + 1 }}
-      </button>
-    </div>
-
-    <button (click)="goToNextPage()" [disabled]="isLastPage">Next ›</button>
-    <button (click)="goToLastPage()" [disabled]="isLastPage">Last »</button>
-  </div>
+  <app-pagination
+    [page]="page"
+    [totalPages]="movieResponse.totalPages || 0"
+    [pageLimit]="pageLimit"
+    (onFirstPage)="goToFirstPage()"
+    (onPreviousPage)="goToPreviousPage()"
+    (onNextPage)="goToNextPage()"
+    (onLastPage)="goToLastPage()"
+    (onPageChange)="gotToPage($event)"
+  ></app-pagination>
 
   <ng-template #noMovies>
     <p class="no-movies">No movies available to display.</p>

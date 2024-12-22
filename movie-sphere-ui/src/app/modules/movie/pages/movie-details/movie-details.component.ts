@@ -15,6 +15,7 @@ import Swal from 'sweetalert2';
 })
 export class MovieDetailsComponent implements OnInit {
   movieId!: number;
+  imdbId!: string;
   movie!: Movie;
   isAdmin: boolean = false;
 
@@ -28,19 +29,33 @@ export class MovieDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.movieId = Number(this.route.snapshot.paramMap.get('id'));
+    this.imdbId = this.route.snapshot.paramMap.get('id') || '';
     this.fetchMovieDetails();
     this.isAdmin = this.tokenService.isAdmin();
   }
 
   private fetchMovieDetails() {
-    this.movieUserService.getMovie1({ id: this.movieId }).subscribe({
-      next: (movie) => {
-        this.movie = movie;
-      },
-      error: (err) => {
-        console.error('Error fetching movie details:', err);
-      },
-    });
+    if (this.movieId) {
+      this.movieUserService.getMovie1({ id: this.movieId }).subscribe({
+        next: (movie) => {
+          this.movie = movie;
+        },
+        error: (err) => {
+          console.error('Error fetching movie details by ID:', err);
+        },
+      });
+    } else if (this.imdbId) {
+      this.movieAdminService.getMovie({ imdbId: this.imdbId }).subscribe({
+        next: (movie) => {
+          this.movie = movie;
+        },
+        error: (err) => {
+          console.error('Error fetching movie details by IMDb ID:', err);
+        },
+      });
+    } else {
+      console.error('No movieId or imdbId provided');
+    }
   }
 
   showDeleteModal() {

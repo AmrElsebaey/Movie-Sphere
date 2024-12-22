@@ -1,0 +1,152 @@
+body {
+  background: var(--dark);
+  color: var(--light);
+  padding: 1rem;
+  padding-top: 80px;
+  min-height: 100vh;
+  margin: 0;
+}
+.search-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.search-bar {
+  width: 60%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.search-btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.search-btn:hover {
+  background-color: var(--secondary);
+}
+
+.movie-table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+
+.movie-table th,
+.movie-table td {
+  padding: 12px;
+  text-align: center;
+  border: 1px solid var(--light);
+  vertical-align: middle;
+}
+
+.movie-table th {
+  background-color: var(--primary);
+  color: white;
+}
+
+.movie-table td {
+  background-color: var(--card-bg);
+  color: white;
+}
+.actions-cell {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: space-around;
+  align-items: center;
+  height: 100%;
+  padding: 0;
+}
+
+.no-results {
+  text-align: center;
+  color: var(--light);
+  margin-top: 20px;
+}
+
+.no-results {
+  text-align: center;
+  font-size: 1.5rem;
+  color: var(--light);
+  margin: 2rem auto;
+  padding: 2rem;
+  border: 2px solid var(--primary);
+  border-radius: 12px;
+  background: var(--card-bg);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  max-width: 800px;
+  transition: all 0.3s ease;
+}
+
+.no-results:hover {
+  transform: translateY(-2px);
+  border-color: var(--secondary);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
+}
+
+.show-details-btn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: fit-content;
+  margin: 0;
+  text-align: center;
+}
+
+.show-details-btn:hover {
+  background: var(--secondary);
+  transform: translateY(-2px);
+}
+
+.show-details-btn svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+.add-btn {
+  background: rgb(0, 158, 0);
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: fit-content;
+  margin: 0 0.5rem;
+  text-align: center;
+}
+
+.add-btn:hover {
+  background: rgb(0, 192, 0);
+  transform: translateY(-2px);
+}
+
+.add-btn svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+

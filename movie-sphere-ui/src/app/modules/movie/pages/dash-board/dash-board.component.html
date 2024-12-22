@@ -1,1 +1,98 @@
-<p>dash-board works!</p>
+<body>
+  <div class="dashboard" id="adminDashboard" *ngIf="hasMovies; else noMovies">
+    <div class="dashboard-header">
+      <h1>Admin Dashboard</h1>
+      <button class="add-movie-btn" (click)="searchMovies()">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <path fill="currentColor" d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+        </svg>
+        Add New Movie
+      </button>
+    </div>
+
+    <table class="movie-table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Genre</th>
+          <th>Year</th>
+          <th>Rating</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="movieTableBody">
+        <tr *ngFor="let movie of movieResponse.content">
+          <td>{{ movie.Title }}</td>
+          <td>{{ movie.Genre }}</td>
+          <td>{{ movie.Year }}</td>
+          <td>{{ movie.imdbRating }}</td>
+          <td class="actions-cell">
+            <button
+              class="show-details-btn"
+              (click)="displayMovieDetails(movie)"
+            >
+              <svg viewBox="0 0 24 24" width="24" height="24">
+                <path
+                  fill="currentColor"
+                  d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zm0 13c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"
+                />
+              </svg>
+              Show Details
+            </button>
+            <button class="delete-btn" (click)="showDeleteModal()">
+              <svg viewBox="0 0 24 24" width="24" height="24">
+                <path
+                  d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"
+                />
+              </svg>
+              Delete
+            </button>
+            <div class="modal" id="deleteModal">
+              <div class="modal-content">
+                <h2>Confirm Delete</h2>
+                <p>Are you sure you want to delete this movie?</p>
+                <div class="modal-buttons">
+                  <button
+                    class="modal-btn confirm-btn"
+                    (click)="deleteMovie(movie)"
+                  >
+                    Delete
+                  </button>
+                  <button
+                    class="modal-btn cancel-btn"
+                    (click)="hideDeleteModal()"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <app-pagination
+    [page]="page"
+    [totalPages]="movieResponse.totalPages || 0"
+    [pageLimit]="pageLimit"
+    (onFirstPage)="goToFirstPage()"
+    (onPreviousPage)="goToPreviousPage()"
+    (onNextPage)="goToNextPage()"
+    (onLastPage)="goToLastPage()"
+    (onPageChange)="gotToPage($event)"
+  ></app-pagination>
+  </div>
+  <ng-template #noMovies>
+    <div class="dashboard-header">
+      <h1>Admin Dashboard</h1>
+      <button class="add-movie-btn" (click)="searchMovies()">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <path fill="currentColor" d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+        </svg>
+        Add New Movie
+      </button>
+    </div>
+    <p class="no-movies">No movies available to display.</p>
+  </ng-template>
+</body>

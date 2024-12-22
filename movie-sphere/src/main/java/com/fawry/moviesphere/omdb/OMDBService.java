@@ -41,7 +41,7 @@ public class OMDBService {
                 page,
                 size,
                 totalElements,
-                (totalPages-1),
+                (totalPages),
                 page == 0,
                 page == totalPages - 1
         );

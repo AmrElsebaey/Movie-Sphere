@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 export class MovieListComponent implements OnInit {
   movieResponse: PageResponseMovie = {};
   page = 0;
-  size = 1;
+  size = 5;
   pages: any = [];
   pageLimit = 5;
 
