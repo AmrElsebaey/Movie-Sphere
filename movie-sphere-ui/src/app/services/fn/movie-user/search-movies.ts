@@ -34,4 +34,4 @@ export function searchMovies(http: HttpClient, rootUrl: string, params: SearchMo
   );
 }
 
-searchMovies.PATH = '/admin/movies';
+searchMovies.PATH = '/user/movies/search';

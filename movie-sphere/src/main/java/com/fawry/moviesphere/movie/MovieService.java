@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -44,7 +45,7 @@ public class MovieService {
     ) {
         Pageable pageable = PageRequest.of(page, size);
         Page<Movie> movies = movieRepository.findAll(pageable);
-        if (movies.isEmpty()) {
+        if (!movies.hasContent()) {
             throw new ResourceNotFoundException("No movies found.");
         } else {
             return new PageResponse<>(
@@ -66,5 +67,41 @@ public class MovieService {
     public void deleteMovie(Long id) {
         Movie movie = getMovie(id);
         movieRepository.delete(movie);
+    }
+
+    public void deleteMultipleMovies(List<Long> ids) {
+        List<Long> existingIds = movieRepository.findAllById(ids).stream()
+                .map(Movie::getId)
+                .collect(Collectors.toList());
+
+        List<Long> notFoundIds = ids.stream()
+                .filter(id -> !existingIds.contains(id))
+                .toList();
+
+        if (!notFoundIds.isEmpty()) {
+            throw new ResourceNotFoundException("Movies not found with ids: " + notFoundIds);
+        }
+
+        movieRepository.deleteAllById(existingIds);
+    }
+
+    public PageResponse<Movie> searchMovies(
+            String query,
+            Integer page,
+            Integer size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Movie> movies = movieRepository.findByTitleContainingIgnoreCase(query, pageable);
+        if (!movies.hasContent()) {
+            throw new ResourceNotFoundException("No movies found.");
+        } else {
+            return new PageResponse<>(
+                    movies.getContent(),
+                    movies.getNumber(),
+                    movies.getSize(),
+                    movies.getTotalElements(),
+                    movies.getTotalPages(),
+                    movies.isFirst(),
+                    movies.isLast());
+        }
     }
 }

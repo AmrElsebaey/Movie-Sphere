@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Movie, PageResponseMovie } from '../../../../services/models';
 import { MovieUserService } from '../../../../services/services';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-movie-list',
@@ -14,13 +14,42 @@ export class MovieListComponent implements OnInit {
   size = 5;
   pages: any = [];
   pageLimit = 5;
+  query: string = '';
 
-  constructor(private movieService: MovieUserService, private router: Router) {}
+  constructor(
+    private movieService: MovieUserService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
-    this.findAllMovies();
+    this.route.queryParams.subscribe((params) => {
+      this.query = params['query'] || '';
+      if (this.query) {
+        this.findQueriedMovies();
+      } else {
+        this.findAllMovies();
+      }
+    });
   }
 
+  private findQueriedMovies() {
+    this.movieService
+      .searchMovies({
+        query: this.query,
+        page: this.page,
+        size: this.size,
+      })
+      .subscribe({
+        next: (movies) => {
+          this.movieResponse = movies;
+          const totalPages = this.movieResponse.totalPages || 0;
+          this.pages = Array(totalPages)
+            .fill(0)
+            .map((x, i) => i);
+        },
+      });
+  }
   private findAllMovies() {
     this.movieService
       .getAllMovies({

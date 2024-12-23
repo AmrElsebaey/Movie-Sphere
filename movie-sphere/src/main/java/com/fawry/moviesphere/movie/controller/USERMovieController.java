@@ -33,5 +33,14 @@ public class USERMovieController {
         return movieService.getMovie(id);
     }
 
+    @GetMapping("/search")
+        public ResponseEntity<PageResponse<Movie>> searchMovies(
+                @RequestParam("query") String query,
+                @RequestParam(value = "page", defaultValue = "0", required = false) Integer page,
+                @RequestParam(value = "size", defaultValue = "5", required = false) Integer size
+        ) {
+            return ResponseEntity.ok(movieService.searchMovies(query, page, size));
+        }
+
 
 }

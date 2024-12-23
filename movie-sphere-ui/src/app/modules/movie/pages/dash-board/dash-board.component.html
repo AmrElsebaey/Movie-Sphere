@@ -13,6 +13,7 @@
     <table class="movie-table">
       <thead>
         <tr>
+          <th>Select</th>
           <th>Title</th>
           <th>Genre</th>
           <th>Year</th>
@@ -22,6 +23,9 @@
       </thead>
       <tbody id="movieTableBody">
         <tr *ngFor="let movie of movieResponse.content">
+          <td>
+            <input type="checkbox" (change)="onSelectMovie(movie.id, $event)" />
+          </td>
           <td>{{ movie.Title }}</td>
           <td>{{ movie.Genre }}</td>
           <td>{{ movie.Year }}</td>
@@ -71,17 +75,23 @@
         </tr>
       </tbody>
     </table>
-
+    <button
+      *ngIf="selectedMovieIds.length > 0"
+      class="delete-selected-btn"
+      (click)="deleteSelectedMovies()"
+    >
+      Delete Selected Movies
+    </button>
     <app-pagination
-    [page]="page"
-    [totalPages]="movieResponse.totalPages || 0"
-    [pageLimit]="pageLimit"
-    (onFirstPage)="goToFirstPage()"
-    (onPreviousPage)="goToPreviousPage()"
-    (onNextPage)="goToNextPage()"
-    (onLastPage)="goToLastPage()"
-    (onPageChange)="gotToPage($event)"
-  ></app-pagination>
+      [page]="page"
+      [totalPages]="movieResponse.totalPages || 0"
+      [pageLimit]="pageLimit"
+      (onFirstPage)="goToFirstPage()"
+      (onPreviousPage)="goToPreviousPage()"
+      (onNextPage)="goToNextPage()"
+      (onLastPage)="goToLastPage()"
+      (onPageChange)="gotToPage($event)"
+    ></app-pagination>
   </div>
   <ng-template #noMovies>
     <div class="dashboard-header">

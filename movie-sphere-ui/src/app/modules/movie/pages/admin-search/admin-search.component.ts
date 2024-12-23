@@ -23,7 +23,7 @@ export class AdminSearchComponent {
 
   searchMovies() {
     this.movieAdminService
-      .searchMovies({
+      .searchMovies1({
         page: this.page,
         size: this.size,
         query: this.searchQuery,

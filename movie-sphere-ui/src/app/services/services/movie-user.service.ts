@@ -17,6 +17,8 @@ import { getMovie1 } from '../fn/movie-user/get-movie-1';
 import { GetMovie1$Params } from '../fn/movie-user/get-movie-1';
 import { Movie } from '../models/movie';
 import { PageResponseMovie } from '../models/page-response-movie';
+import { searchMovies } from '../fn/movie-user/search-movies';
+import { SearchMovies$Params } from '../fn/movie-user/search-movies';
 
 @Injectable({ providedIn: 'root' })
 export class MovieUserService extends BaseService {
@@ -71,6 +73,31 @@ export class MovieUserService extends BaseService {
   getMovie1(params: GetMovie1$Params, context?: HttpContext): Observable<Movie> {
     return this.getMovie1$Response(params, context).pipe(
       map((r: StrictHttpResponse<Movie>): Movie => r.body)
+    );
+  }
+
+  /** Path part for operation `searchMovies()` */
+  static readonly SearchMoviesPath = '/user/movies/search';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `searchMovies()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  searchMovies$Response(params: SearchMovies$Params, context?: HttpContext): Observable<StrictHttpResponse<PageResponseMovie>> {
+    return searchMovies(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `searchMovies$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  searchMovies(params: SearchMovies$Params, context?: HttpContext): Observable<PageResponseMovie> {
+    return this.searchMovies$Response(params, context).pipe(
+      map((r: StrictHttpResponse<PageResponseMovie>): PageResponseMovie => r.body)
     );
   }
 

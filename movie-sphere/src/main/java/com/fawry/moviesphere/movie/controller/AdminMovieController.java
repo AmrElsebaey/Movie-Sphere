@@ -45,5 +45,11 @@ public class AdminMovieController {
         movieService.deleteMovie(movieId);
     }
 
+    @DeleteMapping
+    public void deleteMultipleMovies(@RequestBody List<Long> movieIds) {
+        movieService.deleteMultipleMovies(movieIds);
+    }
+
+
 
 }

@@ -18,6 +18,7 @@ export class DashBoardComponent {
   size = 10;
   pages: any = [];
   pageLimit = 5;
+  selectedMovieIds: number[] = [];
 
   constructor(
     private movieUserService: MovieUserService,
@@ -27,6 +28,53 @@ export class DashBoardComponent {
 
   ngOnInit(): void {
     this.findAllMovies();
+  }
+
+  onSelectMovie(movieId: number | undefined, event: any) {
+    if (movieId !== undefined) {
+      if (event.target.checked) {
+        this.selectedMovieIds.push(movieId);
+      } else {
+        this.selectedMovieIds = this.selectedMovieIds.filter(
+          (id) => id !== movieId
+        );
+      }
+    }
+  }
+
+  deleteSelectedMovies() {
+    if (this.selectedMovieIds.length > 0) {
+      this.movieAdminService
+        .deleteMultipleMovies({body:this.selectedMovieIds})
+        .subscribe({
+          next: () => {
+            Swal.fire({
+              icon: 'success',
+              title: 'Movies Deleted',
+              text: 'The selected movies have been deleted successfully!',
+              confirmButtonText: 'OK',
+            });
+
+            if (this.movieResponse.content) {
+              this.movieResponse.content = this.movieResponse.content.filter(
+                (movie) =>
+                  movie.id !== undefined &&
+                  !this.selectedMovieIds.includes(movie.id)
+              );
+            }
+            this.selectedMovieIds = [];
+          },
+          error: (err) => {
+            console.error('Error deleting movies:', err);
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Failed to delete the movies. Please try again.',
+              confirmButtonText: 'OK',
+            });
+          },
+        });
+    }
   }
 
   searchMovies() {

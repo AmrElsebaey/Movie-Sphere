@@ -18,7 +18,7 @@ public class OMDBService {
     @Value("${omdb.api.key}")
     private String API_KEY;
     private final String TYPE = "movie";
-    private final String URL = "http://www.omdbapi.com/";
+    private final String URL = "https://www.omdbapi.com/";
     private final RestTemplate client;
 
 

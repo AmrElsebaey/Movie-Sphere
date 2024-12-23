@@ -15,12 +15,14 @@ import { addMovie } from '../fn/movie-admin/add-movie';
 import { AddMovie$Params } from '../fn/movie-admin/add-movie';
 import { deleteMovie } from '../fn/movie-admin/delete-movie';
 import { DeleteMovie$Params } from '../fn/movie-admin/delete-movie';
+import { deleteMultipleMovies } from '../fn/movie-admin/delete-multiple-movies';
+import { DeleteMultipleMovies$Params } from '../fn/movie-admin/delete-multiple-movies';
 import { getMovie } from '../fn/movie-admin/get-movie';
 import { GetMovie$Params } from '../fn/movie-admin/get-movie';
 import { Movie } from '../models/movie';
 import { PageResponseMovie } from '../models/page-response-movie';
-import { searchMovies } from '../fn/movie-admin/search-movies';
-import { SearchMovies$Params } from '../fn/movie-admin/search-movies';
+import { searchMovies1 } from '../fn/movie-admin/search-movies-1';
+import { SearchMovies1$Params } from '../fn/movie-admin/search-movies-1';
 
 @Injectable({ providedIn: 'root' })
 export class MovieAdminService extends BaseService {
@@ -78,28 +80,53 @@ export class MovieAdminService extends BaseService {
     );
   }
 
-  /** Path part for operation `searchMovies()` */
-  static readonly SearchMoviesPath = '/admin/movies';
+  /** Path part for operation `searchMovies1()` */
+  static readonly SearchMovies1Path = '/admin/movies';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `searchMovies()` instead.
+   * To access only the response body, use `searchMovies1()` instead.
    *
    * This method doesn't expect any request body.
    */
-  searchMovies$Response(params: SearchMovies$Params, context?: HttpContext): Observable<StrictHttpResponse<PageResponseMovie>> {
-    return searchMovies(this.http, this.rootUrl, params, context);
+  searchMovies1$Response(params: SearchMovies1$Params, context?: HttpContext): Observable<StrictHttpResponse<PageResponseMovie>> {
+    return searchMovies1(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `searchMovies$Response()` instead.
+   * To access the full response (for headers, for example), `searchMovies1$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  searchMovies(params: SearchMovies$Params, context?: HttpContext): Observable<PageResponseMovie> {
-    return this.searchMovies$Response(params, context).pipe(
+  searchMovies1(params: SearchMovies1$Params, context?: HttpContext): Observable<PageResponseMovie> {
+    return this.searchMovies1$Response(params, context).pipe(
       map((r: StrictHttpResponse<PageResponseMovie>): PageResponseMovie => r.body)
+    );
+  }
+
+  /** Path part for operation `deleteMultipleMovies()` */
+  static readonly DeleteMultipleMoviesPath = '/admin/movies';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `deleteMultipleMovies()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  deleteMultipleMovies$Response(params: DeleteMultipleMovies$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+    return deleteMultipleMovies(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `deleteMultipleMovies$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  deleteMultipleMovies(params: DeleteMultipleMovies$Params, context?: HttpContext): Observable<void> {
+    return this.deleteMultipleMovies$Response(params, context).pipe(
+      map((r: StrictHttpResponse<void>): void => r.body)
     );
   }
 
