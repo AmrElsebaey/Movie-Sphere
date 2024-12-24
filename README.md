@@ -7,7 +7,7 @@
 - [Technologies Used](#technologies-used)
     - [Backend (movie-sphere)](#backend-movie-sphere)
     - [Frontend (movie-sphere-ui)](#frontend-movie-sphere-ui)
-- [Running the Project](#Running the Project)
+- [Running the Project](#Running-the-Project)
 
 
 ## Overview
