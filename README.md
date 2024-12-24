@@ -68,6 +68,18 @@ Before starting, ensure you have the following installed on your machine:
    ```bash
    git clone https://github.com/AmrElsebaey/movie-sphere.git
    cd movie-sphere
+2. Run the application using Docker Compose:
+
+bash
+Copy code
+docker-compose up --build
+this command will:
+
+Build and start the backend, frontend, and MySQL containers.
+Configure the environment as defined in the docker-compose.yml file.
+The backend will be running on http://localhost:8080 and the frontend will be running on http://localhost:4200.
+
+
 
 
 
