@@ -16,4 +16,22 @@ Movie Sphere is a full-stack application that allows users to explore and manage
 - Secure Access: The application ensures secure access using JWT tokens and Spring Security for user authentication and authorization.
 
 #### Class Diagram
+![Class diagram](screenshots/class-diagram.png)
+
+## Technologies Used
+
+### Backend (movie-sphere)
+
+- Spring Boot 3
+- Spring Security 6
+- JWT Token Authentication
+- Spring Data JPA
+- Spring Validation
+- OpenAPI and Swagger UI Documentation
+- Docker
+
+  ## Swagger Docs
+![Swagger Docs](screenshots/docs.png)
+
+
 
