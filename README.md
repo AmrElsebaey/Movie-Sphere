@@ -70,9 +70,10 @@ Before starting, ensure you have the following installed on your machine:
    cd movie-sphere
 2. Run the application using Docker Compose:
 
-bash
+```bash
 Copy code
 docker-compose up --build
+
 this command will:
 
 Build and start the backend, frontend, and MySQL containers.
