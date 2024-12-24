@@ -14,3 +14,6 @@ Movie Sphere is a full-stack application that allows users to explore and manage
 - Add Movies: Admins can add individual movies or upload a collection of movies.
 - Delete Movies: Admins can remove individual movies or delete multiple movies at once.
 - Secure Access: The application ensures secure access using JWT tokens and Spring Security for user authentication and authorization.
+
+#### Class Diagram
+
