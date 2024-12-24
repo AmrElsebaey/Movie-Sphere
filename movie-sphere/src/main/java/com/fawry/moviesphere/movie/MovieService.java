@@ -12,7 +12,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,20 +27,66 @@ public class MovieService {
     private final RatingRepository ratingRepository;
 
 
-    public Movie addMovie (String imdbId) {
+    public Movie addMovie(String imdbId) {
         if (movieRepository.existsByImdbId(imdbId)) {
             throw new ResourceAlreadyExistsException("Movie already exists.");
         }
+
         Movie movie = omdbService.getMovie(imdbId);
         if (movie == null) {
             throw new ResourceNotFoundException("No movie found with imdbId: " + imdbId);
         }
+
         List<Rating> ratings = movie.getRatings();
         ratings.forEach(rating -> rating.setMovie(movie));
+
         movieRepository.save(movie);
         ratingRepository.saveAll(ratings);
+
         return movie;
     }
+
+    public List<Movie> addMultipleMovies(List<String> imdbIds) {
+        Set<String> existingIds = new HashSet<>(movieRepository.findAllByImdbIdIn(imdbIds)
+                .stream()
+                .map(Movie::getImdbId)
+                .collect(Collectors.toSet()));
+
+        List<Movie> newMovies = new ArrayList<>();
+        List<String> failedMovies = new ArrayList<>();
+
+        for (String imdbId : imdbIds) {
+            if (existingIds.contains(imdbId)) {
+                failedMovies.add(omdbService.getMovie(imdbId).getTitle());
+            } else {
+                try {
+                    Movie movie = addMovie(imdbId);
+                    newMovies.add(movie);
+                } catch (ResourceNotFoundException e) {
+                    failedMovies.add(omdbService.getMovie(imdbId).getTitle());
+                }
+            }
+        }
+
+        if (!failedMovies.isEmpty()) {
+            if (!newMovies.isEmpty()) {
+                throw new ResourceAlreadyExistsException(
+                        "These movies have been added successfully: " + newMovies.stream()
+                                .map(Movie::getTitle)
+                                .collect(Collectors.joining(", ")) +
+                                System.lineSeparator() +
+                                "Failed to add the following movies: " + String.join(", ", failedMovies)
+                );
+            } else {
+                throw new ResourceAlreadyExistsException("All Movies already exist.");
+            }
+        } else {
+            return newMovies;
+        }
+    }
+
+
+
 
     public PageResponse<Movie> getAllMovies(
             Integer page,

@@ -45,7 +45,7 @@ export class DashBoardComponent {
   deleteSelectedMovies() {
     if (this.selectedMovieIds.length > 0) {
       this.movieAdminService
-        .deleteMultipleMovies({body:this.selectedMovieIds})
+        .deleteMultipleMovies({ body: this.selectedMovieIds })
         .subscribe({
           next: () => {
             Swal.fire({
@@ -62,6 +62,9 @@ export class DashBoardComponent {
                   !this.selectedMovieIds.includes(movie.id)
               );
             }
+
+            this.hideDeleteModal();
+
             this.selectedMovieIds = [];
           },
           error: (err) => {
@@ -149,15 +152,21 @@ export class DashBoardComponent {
     this.router.navigate(['movies', 'details', movie.id]);
   }
 
-  showDeleteModal() {
-    const modal = document.getElementById('deleteModal');
+  showDeleteModal(movieId?: string) {
+    const modalId = movieId
+      ? 'deleteModalSingle-' + movieId
+      : 'deleteModalSelected';
+    const modal = document.getElementById(modalId);
     if (modal) {
       modal.classList.add('show');
     }
   }
 
-  hideDeleteModal() {
-    const modal = document.getElementById('deleteModal');
+  hideDeleteModal(movieId?: string) {
+    const modalId = movieId
+      ? 'deleteModalSingle-' + movieId
+      : 'deleteModalSelected';
+    const modal = document.getElementById(modalId);
     if (modal) {
       modal.classList.remove('show');
     }
@@ -172,12 +181,14 @@ export class DashBoardComponent {
           text: 'The movie has been deleted successfully!',
           confirmButtonText: 'OK',
         });
-        if (this.movieResponse?.content) {
+
+        if (this.movieResponse.content) {
           this.movieResponse.content = this.movieResponse.content.filter(
             (m) => m.id !== movie.id
           );
         }
-        this.hideDeleteModal();
+
+        this.hideDeleteModal(movie.id?.toString());
       },
       error: (err) => {
         console.error('Error deleting movie:', err);

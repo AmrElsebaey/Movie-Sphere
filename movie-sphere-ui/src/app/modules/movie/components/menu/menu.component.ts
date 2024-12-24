@@ -31,7 +31,7 @@ export class MenuComponent implements OnInit {
 
   onSearch() {
     if (this.searchQuery.trim()) {
-      this.router.navigate(['/'], {
+      this.router.navigate(['/movies'], {
         queryParams: { query: this.searchQuery },
       });
     }

@@ -41,9 +41,11 @@ public class Movie {
     private String genre;
 
     @JsonProperty("Director")
+    @Column(length = 1000)
     private String director;
 
     @JsonProperty("Writer")
+    @Column(length = 1000)
     private String writer;
 
     @JsonProperty("Actors")

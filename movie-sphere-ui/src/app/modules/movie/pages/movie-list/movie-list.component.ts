@@ -35,7 +35,7 @@ export class MovieListComponent implements OnInit {
 
   private findQueriedMovies() {
     this.movieService
-      .searchMovies({
+      .searchMovies1({
         query: this.query,
         page: this.page,
         size: this.size,
@@ -47,6 +47,9 @@ export class MovieListComponent implements OnInit {
           this.pages = Array(totalPages)
             .fill(0)
             .map((x, i) => i);
+        },
+        error: (err) => {
+          this.movieResponse = {};
         },
       });
   }

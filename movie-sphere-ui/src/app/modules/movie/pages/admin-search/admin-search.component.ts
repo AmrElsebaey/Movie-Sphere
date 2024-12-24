@@ -16,14 +16,55 @@ export class AdminSearchComponent {
   pages: any = [];
   pageLimit = 5;
   searchQuery: any;
+  selectedMovieIds: string[] = [];
+
+  onSelectMovie(movieId: string | undefined, event: any) {
+    if (movieId !== undefined) {
+      if (event.target.checked) {
+        this.selectedMovieIds.push(movieId);
+      } else {
+        this.selectedMovieIds = this.selectedMovieIds.filter(
+          (id) => id !== movieId
+        );
+      }
+    }
+  }
   constructor(
     private movieAdminService: MovieAdminService,
     private router: Router
   ) {}
 
+  addSelectedMovies() {
+    if (this.selectedMovieIds.length > 0) {
+      this.movieAdminService
+        .addMoviesBulk({ body: this.selectedMovieIds })
+        .subscribe({
+          next: () => {
+            Swal.fire({
+              icon: 'success',
+              title: 'Movies Added',
+              text: 'The selected movies have been added successfully!',
+              confirmButtonText: 'OK',
+            });
+
+            this.selectedMovieIds = [];
+          },
+          error: (err) => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: err.error.error,
+              confirmButtonText: 'OK',
+            });
+            this.selectedMovieIds = [];
+          },
+        });
+    }
+  }
+
   searchMovies() {
     this.movieAdminService
-      .searchMovies1({
+      .searchMovies({
         page: this.page,
         size: this.size,
         query: this.searchQuery,
@@ -35,7 +76,7 @@ export class AdminSearchComponent {
 
   addMovie(movie: Movie) {
     if (movie.imdbID) {
-      this.movieAdminService.addMovie({ imdbId: movie.imdbID }).subscribe(
+      this.movieAdminService.addMovieSingle({ imdbId: movie.imdbID }).subscribe(
         (response) => {
           Swal.fire({
             title: 'Success!',
@@ -94,7 +135,11 @@ export class AdminSearchComponent {
   }
 
   goToNextPage() {
-    if (this.movieResponse && this.movieResponse.totalPages && this.page < this.movieResponse.totalPages - 1) {
+    if (
+      this.movieResponse &&
+      this.movieResponse.totalPages &&
+      this.page < this.movieResponse.totalPages - 1
+    ) {
       this.page++;
       this.searchMovies();
     }
@@ -106,7 +151,6 @@ export class AdminSearchComponent {
       this.searchMovies();
     }
   }
-
 
   gotToPage(page: number) {
     this.page = page;

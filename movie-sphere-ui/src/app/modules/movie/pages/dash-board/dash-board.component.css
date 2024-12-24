@@ -212,18 +212,3 @@ body {
   border-color: var(--secondary);
   box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
 }
-
-.delete-selected-btn {
-  background-color: var(--danger);
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  margin-top: 20px;
-}
-
-.delete-selected-btn:hover {
-  background-color: #c82333;
-}

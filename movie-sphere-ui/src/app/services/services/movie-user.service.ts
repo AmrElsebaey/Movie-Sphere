@@ -17,8 +17,8 @@ import { getMovie1 } from '../fn/movie-user/get-movie-1';
 import { GetMovie1$Params } from '../fn/movie-user/get-movie-1';
 import { Movie } from '../models/movie';
 import { PageResponseMovie } from '../models/page-response-movie';
-import { searchMovies } from '../fn/movie-user/search-movies';
-import { SearchMovies$Params } from '../fn/movie-user/search-movies';
+import { searchMovies1 } from '../fn/movie-user/search-movies-1';
+import { SearchMovies1$Params } from '../fn/movie-user/search-movies-1';
 
 @Injectable({ providedIn: 'root' })
 export class MovieUserService extends BaseService {
@@ -76,27 +76,27 @@ export class MovieUserService extends BaseService {
     );
   }
 
-  /** Path part for operation `searchMovies()` */
-  static readonly SearchMoviesPath = '/user/movies/search';
+  /** Path part for operation `searchMovies1()` */
+  static readonly SearchMovies1Path = '/user/movies/search';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `searchMovies()` instead.
+   * To access only the response body, use `searchMovies1()` instead.
    *
    * This method doesn't expect any request body.
    */
-  searchMovies$Response(params: SearchMovies$Params, context?: HttpContext): Observable<StrictHttpResponse<PageResponseMovie>> {
-    return searchMovies(this.http, this.rootUrl, params, context);
+  searchMovies1$Response(params: SearchMovies1$Params, context?: HttpContext): Observable<StrictHttpResponse<PageResponseMovie>> {
+    return searchMovies1(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `searchMovies$Response()` instead.
+   * To access the full response (for headers, for example), `searchMovies1$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  searchMovies(params: SearchMovies$Params, context?: HttpContext): Observable<PageResponseMovie> {
-    return this.searchMovies$Response(params, context).pipe(
+  searchMovies1(params: SearchMovies1$Params, context?: HttpContext): Observable<PageResponseMovie> {
+    return this.searchMovies1$Response(params, context).pipe(
       map((r: StrictHttpResponse<PageResponseMovie>): PageResponseMovie => r.body)
     );
   }

@@ -43,7 +43,10 @@
               </svg>
               Show Details
             </button>
-            <button class="delete-btn" (click)="showDeleteModal()">
+            <button
+              class="delete-btn"
+              (click)="showDeleteModal(movie.id?.toString())"
+            >
               <svg viewBox="0 0 24 24" width="24" height="24">
                 <path
                   d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"
@@ -51,20 +54,22 @@
               </svg>
               Delete
             </button>
-            <div class="modal" id="deleteModal">
+            <div class="modal" [id]="'deleteModalSingle-' + movie.id">
               <div class="modal-content">
                 <h2>Confirm Delete</h2>
                 <p>Are you sure you want to delete this movie?</p>
                 <div class="modal-buttons">
-                  <button
-                    class="modal-btn confirm-btn"
-                    (click)="deleteMovie(movie)"
-                  >
+                  <button class="delete-btn" (click)="deleteMovie(movie)">
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                      <path
+                        d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"
+                      />
+                    </svg>
                     Delete
                   </button>
                   <button
                     class="modal-btn cancel-btn"
-                    (click)="hideDeleteModal()"
+                    (click)="hideDeleteModal(movie.id?.toString())"
                   >
                     Cancel
                   </button>
@@ -77,11 +82,35 @@
     </table>
     <button
       *ngIf="selectedMovieIds.length > 0"
-      class="delete-selected-btn"
-      (click)="deleteSelectedMovies()"
+      class="delete-btn"
+      style="margin-top: 1rem"
+      (click)="showDeleteModal()"
     >
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <path
+          d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"
+        />
+      </svg>
       Delete Selected Movies
     </button>
+    <div class="modal" id="deleteModalSelected">
+      <div class="modal-content">
+        <h2>Confirm Delete</h2>
+        <p>Are you sure you want to delete these movies?</p>
+        <div class="modal-buttons">
+          <button
+            class="modal-btn confirm-btn"
+            (click)="deleteSelectedMovies()"
+          >
+            Delete
+          </button>
+          <button class="modal-btn cancel-btn" (click)="hideDeleteModal()">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+
     <app-pagination
       [page]="page"
       [totalPages]="movieResponse.totalPages || 0"

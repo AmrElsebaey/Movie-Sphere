@@ -40,6 +40,11 @@ public class AdminMovieController {
         return ResponseEntity.ok(movieService.addMovie(imdbId));
     }
 
+    @PostMapping
+    public ResponseEntity<List<Movie>> addMovie(@RequestBody List<String> imdbIds) {
+        return ResponseEntity.ok(movieService.addMultipleMovies(imdbIds));
+    }
+
     @DeleteMapping("/{movieId}")
     public void deleteMovie(@PathVariable("movieId") Long movieId) {
         movieService.deleteMovie(movieId);

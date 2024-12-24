@@ -8,16 +8,20 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { Movie } from '../../models/movie';
+import { PageResponseMovie } from '../../models/page-response-movie';
 
-export interface AddMovie$Params {
-      body: Array<string>
+export interface SearchMovies1$Params {
+  query: string;
+  page?: number;
+  size?: number;
 }
 
-export function addMovie(http: HttpClient, rootUrl: string, params: AddMovie$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Movie>>> {
-  const rb = new RequestBuilder(rootUrl, addMovie.PATH, 'post');
+export function searchMovies1(http: HttpClient, rootUrl: string, params: SearchMovies1$Params, context?: HttpContext): Observable<StrictHttpResponse<PageResponseMovie>> {
+  const rb = new RequestBuilder(rootUrl, searchMovies1.PATH, 'get');
   if (params) {
-    rb.body(params.body, 'application/json');
+    rb.query('query', params.query, {});
+    rb.query('page', params.page, {});
+    rb.query('size', params.size, {});
   }
 
   return http.request(
@@ -25,9 +29,9 @@ export function addMovie(http: HttpClient, rootUrl: string, params: AddMovie$Par
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<Movie>>;
+      return r as StrictHttpResponse<PageResponseMovie>;
     })
   );
 }
 
-addMovie.PATH = '/admin/movies';
+searchMovies1.PATH = '/user/movies/search';

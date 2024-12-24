@@ -13,6 +13,7 @@
   <table class="movie-table" *ngIf="hasMovies; else noMovies">
     <thead>
       <tr>
+        <th>Select</th>
         <th>Title</th>
         <th>Year</th>
         <th>Poster</th>
@@ -21,6 +22,12 @@
     </thead>
     <tbody>
       <tr *ngFor="let movie of movieResponse.content">
+        <td>
+          <input
+            type="checkbox"
+            (change)="onSelectMovie(movie.imdbID, $event)"
+          />
+        </td>
         <td>{{ movie.Title }}</td>
         <td>{{ movie.Year }}</td>
         <td><img src="{{ movie.Poster }}" alt="{{ movie.Title }}" /></td>
@@ -54,6 +61,17 @@
       </tr>
     </tbody>
   </table>
+  <button
+    *ngIf="selectedMovieIds.length > 0"
+    class="add-btn"
+    style="margin-top: 1rem"
+    (click)="addSelectedMovies()"
+  >
+    <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+      <path d="M19 13H12v7h-1v-7H5v-1h6V5h1v7h7v1z" />
+    </svg>
+    Add Selected Movies
+  </button>
 
   <app-pagination
     [page]="page"

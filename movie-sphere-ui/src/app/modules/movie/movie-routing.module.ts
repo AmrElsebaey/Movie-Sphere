@@ -33,7 +33,7 @@ const routes: Routes = [
         path: 'admin/search',
         component: AdminSearchComponent,
         canActivate: [authGuard, roleGuard],
-      }
+      },
     ],
   },
 ];

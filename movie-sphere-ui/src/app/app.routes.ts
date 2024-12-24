@@ -13,14 +13,14 @@ export const routes: Routes = [
     component: RegisterComponent,
   },
   {
-    path: '',
-    redirectTo: 'movies',
-    pathMatch: 'full'
+    path: 'movies',
+    loadChildren: () =>
+      import('./modules/movie/movie.module').then((m) => m.MovieModule),
+    canActivate: [authGuard],
   },
   {
-    path: 'movies',
-    loadChildren: () => import('./modules/movie/movie.module').then(m => m.MovieModule),
-    canActivate: [authGuard]
-  }
-
+    path: '**',
+    redirectTo: '/movies',
+    pathMatch: 'full',
+  },
 ];
