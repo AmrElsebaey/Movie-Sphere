@@ -7,11 +7,8 @@
 - [Technologies Used](#technologies-used)
     - [Backend (movie-sphere)](#backend-movie-sphere)
     - [Frontend (movie-sphere-ui)](#frontend-movie-sphere-ui)
-- [Learning Objectives](#learning-objectives)
-- [License](#license)
-- [Getting Started](#getting-started)
-- [Contributors](#contributors)
-- [Acknowledgments](#acknowledgments)
+- [Running the Project](#Running the Project)
+
 
 ## Overview
 
@@ -43,8 +40,35 @@ Movie Sphere is a full-stack application that allows users to explore and manage
 - OpenAPI and Swagger UI Documentation
 - Docker
 
-  ## Swagger Docs
+## Swagger Docs
 ![Swagger Docs](screenshots/docs.png)
+
+### Frontend (book-network-ui)
+
+- Angular
+- Component-Based Architecture
+- Lazy Loading
+- Authentication Guard
+- OpenAPI Generator for Angular
+
+## Running the Project
+
+To run the **Movie-Sphere** project locally, follow these steps:
+
+### Prerequisites
+
+Before starting, ensure you have the following installed on your machine:
+
+- **Docker**
+- **Docker Compose**
+
+### Steps to Run the Project
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/AmrElsebaey/movie-sphere.git
+   cd movie-sphere
+
 
 
 
