@@ -1,5 +1,18 @@
 # Movie-Sphere
 
+## Table of Contents
+
+- [Overview](#overview)
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+    - [Backend (movie-sphere)](#backend-movie-sphere)
+    - [Frontend (movie-sphere-ui)](#frontend-movie-sphere-ui)
+- [Learning Objectives](#learning-objectives)
+- [License](#license)
+- [Getting Started](#getting-started)
+- [Contributors](#contributors)
+- [Acknowledgments](#acknowledgments)
+
 ## Overview
 
 Movie Sphere is a full-stack application that allows users to explore and manage movie information. It provides a platform where users can browse movies, view detailed information, and search for specific movies. Additionally, it includes an Admin Dashboard that allows administrators to manage the movie database by adding or removing individual movies or groups of movies. The backend is built with Spring Boot 3 and Spring Security for secure access, while the frontend is developed using Angular and styled with Bootstrap.
