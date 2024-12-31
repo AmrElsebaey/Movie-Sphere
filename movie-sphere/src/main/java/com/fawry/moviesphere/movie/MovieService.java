@@ -4,28 +4,23 @@ import com.fawry.moviesphere.exception.ResourceAlreadyExistsException;
 import com.fawry.moviesphere.exception.ResourceNotFoundException;
 import com.fawry.moviesphere.omdb.OMDBService;
 import com.fawry.moviesphere.pagination.PageResponse;
-import com.fawry.moviesphere.rating.Rating;
-import com.fawry.moviesphere.rating.RatingRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class MovieService {
 
     private final MovieRepository movieRepository;
     private final OMDBService omdbService;
-    private final RatingRepository ratingRepository;
-
 
     public Movie addMovie(String imdbId) {
         if (movieRepository.existsByImdbId(imdbId)) {
@@ -37,56 +32,51 @@ public class MovieService {
             throw new ResourceNotFoundException("No movie found with imdbId: " + imdbId);
         }
 
-        List<Rating> ratings = movie.getRatings();
-        ratings.forEach(rating -> rating.setMovie(movie));
-
         movieRepository.save(movie);
-        ratingRepository.saveAll(ratings);
 
         return movie;
     }
 
+
     public List<Movie> addMultipleMovies(List<String> imdbIds) {
-        Set<String> existingIds = new HashSet<>(movieRepository.findAllByImdbIdIn(imdbIds)
-                .stream()
-                .map(Movie::getImdbId)
-                .collect(Collectors.toSet()));
+        Set<String> existingIds = movieRepository.findImdbIdIn(imdbIds);
 
-        List<Movie> newMovies = new ArrayList<>();
-        List<String> failedMovies = new ArrayList<>();
-
-        for (String imdbId : imdbIds) {
-            if (existingIds.contains(imdbId)) {
-                failedMovies.add(omdbService.getMovie(imdbId).getTitle());
-            } else {
-                try {
-                    Movie movie = addMovie(imdbId);
-                    newMovies.add(movie);
-                } catch (ResourceNotFoundException e) {
-                    failedMovies.add(omdbService.getMovie(imdbId).getTitle());
-                }
-            }
+        if (existingIds.containsAll(imdbIds)) {
+            throw new ResourceAlreadyExistsException("All movies already exist.");
         }
 
-        if (!failedMovies.isEmpty()) {
-            if (!newMovies.isEmpty()) {
-                throw new ResourceAlreadyExistsException(
-                        "These movies have been added successfully: " + newMovies.stream()
-                                .map(Movie::getTitle)
-                                .collect(Collectors.joining(", ")) +
-                                System.lineSeparator() +
-                                "Failed to add the following movies: " + String.join(", ", failedMovies)
-                );
-            } else {
-                throw new ResourceAlreadyExistsException("All Movies already exist.");
-            }
-        } else {
+        List<Movie> newMovies = imdbIds.parallelStream()
+                .filter(imdbId -> !existingIds.contains(imdbId))
+                .map(omdbService::getMovie)
+                .collect(Collectors.toList());
+
+        movieRepository.saveAll(newMovies);
+
+        if (existingIds.isEmpty()) {
             return newMovies;
         }
+
+        List<String> failedMovies = new ArrayList<>();
+        imdbIds.forEach(imdbId -> {
+            if (existingIds.contains(imdbId)) {
+                failedMovies.add(imdbId);
+            }
+        });
+
+        if (!failedMovies.isEmpty()) {
+            throw new ResourceAlreadyExistsException(
+                    "These movies have been added successfully: " +
+                            newMovies.stream()
+                                    .map(Movie::getTitle)
+                                    .collect(Collectors.joining(", ")) +
+                            System.lineSeparator() +
+                            "Failed to add the following movies: " +
+                            String.join(", ", failedMovies)
+            );
+        }
+
+        return newMovies;
     }
-
-
-
 
     public PageResponse<Movie> getAllMovies(
             Integer page,
@@ -130,6 +120,7 @@ public class MovieService {
         if (!notFoundIds.isEmpty()) {
             throw new ResourceNotFoundException("Movies not found with ids: " + notFoundIds);
         }
+
 
         movieRepository.deleteAllById(existingIds);
     }

@@ -25,6 +25,7 @@ export class MovieListComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.query = params['query'] || '';
+      this.page = 0;
       if (this.query) {
         this.findQueriedMovies();
       } else {
@@ -90,27 +91,47 @@ export class MovieListComponent implements OnInit {
 
   gotToPage(page: number) {
     this.page = page;
-    this.findAllMovies();
+    if (this.query) {
+      this.findQueriedMovies();
+    } else {
+      this.findAllMovies();
+    }
   }
 
   goToFirstPage() {
     this.page = 0;
-    this.findAllMovies();
+    if (this.query) {
+      this.findQueriedMovies();
+    } else {
+      this.findAllMovies();
+    }
   }
 
   goToPreviousPage() {
     this.page--;
-    this.findAllMovies();
+    if (this.query) {
+      this.findQueriedMovies();
+    } else {
+      this.findAllMovies();
+    }
   }
 
   goToLastPage() {
     this.page = (this.movieResponse.totalPages as number) - 1;
-    this.findAllMovies();
+    if (this.query) {
+      this.findQueriedMovies();
+    } else {
+      this.findAllMovies();
+    }
   }
 
   goToNextPage() {
     this.page++;
-    this.findAllMovies();
+    if (this.query) {
+      this.findQueriedMovies();
+    } else {
+      this.findAllMovies();
+    }
   }
 
   get isLastPage() {

@@ -19,7 +19,12 @@ import java.util.List;
 public class Movie {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE
+            , generator = "movie_id_seq")
+    @SequenceGenerator(
+            name = "movie_id_seq",
+            sequenceName = "movie_id_seq"
+    )
     private Long id;
 
     @JsonProperty("Title")

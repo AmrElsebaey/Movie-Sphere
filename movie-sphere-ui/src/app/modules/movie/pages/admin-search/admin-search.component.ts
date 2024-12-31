@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Movie, PageResponseMovie } from '../../../../services/models';
 import { MovieAdminService } from '../../../../services/services';
 import { Router } from '@angular/router';
@@ -16,6 +16,7 @@ export class AdminSearchComponent {
   pages: any = [];
   pageLimit = 5;
   searchQuery: any;
+  previousSearchQuery: string = '';
   selectedMovieIds: string[] = [];
 
   onSelectMovie(movieId: string | undefined, event: any) {
@@ -63,6 +64,10 @@ export class AdminSearchComponent {
   }
 
   searchMovies() {
+    if (this.searchQuery !== this.previousSearchQuery) {
+      this.page = 0;
+      this.previousSearchQuery = this.searchQuery;
+    }
     this.movieAdminService
       .searchMovies({
         page: this.page,

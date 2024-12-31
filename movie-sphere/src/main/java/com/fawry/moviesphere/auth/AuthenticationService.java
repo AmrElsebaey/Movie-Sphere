@@ -1,10 +1,9 @@
 package com.fawry.moviesphere.auth;
 
-import com.fawry.moviesphere.User.User;
-import com.fawry.moviesphere.User.UserRepository;
+import com.fawry.moviesphere.user.User;
+import com.fawry.moviesphere.user.UserRepository;
 import com.fawry.moviesphere.exception.ResourceAlreadyExistsException;
 import com.fawry.moviesphere.exception.ResourceNotFoundException;
-import com.fawry.moviesphere.exception.ResourceAlreadyExistsException;
 import com.fawry.moviesphere.role.RoleRepository;
 import com.fawry.moviesphere.security.JwtService;
 import lombok.RequiredArgsConstructor;

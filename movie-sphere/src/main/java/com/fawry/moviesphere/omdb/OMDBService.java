@@ -4,6 +4,7 @@ import com.fawry.moviesphere.movie.Movie;
 import com.fawry.moviesphere.pagination.PageResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -46,7 +47,6 @@ public class OMDBService {
                 page == totalPages - 1
         );
     }
-
 
     public Movie getMovie(String imdbId) {
         return Objects.requireNonNull(client.getForObject(

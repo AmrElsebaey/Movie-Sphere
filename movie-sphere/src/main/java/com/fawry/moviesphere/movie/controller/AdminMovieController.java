@@ -7,6 +7,7 @@ import com.fawry.moviesphere.omdb.OMDBService;
 import com.fawry.moviesphere.pagination.PageResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,7 +42,7 @@ public class AdminMovieController {
     }
 
     @PostMapping
-    public ResponseEntity<List<Movie>> addMovie(@RequestBody List<String> imdbIds) {
+    public ResponseEntity<List<Movie>> addMovies(@RequestBody List<String> imdbIds) {
         return ResponseEntity.ok(movieService.addMultipleMovies(imdbIds));
     }
 

@@ -1,7 +1,7 @@
 package com.fawry.moviesphere.role;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fawry.moviesphere.User.User;
+import com.fawry.moviesphere.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 

@@ -2,8 +2,9 @@ package com.fawry.moviesphere.auth;
 
 import com.fawry.moviesphere.User.User;
 import com.fawry.moviesphere.User.UserRepository;
+import com.fawry.moviesphere.exception.ResourceAlreadyExistsException;
 import com.fawry.moviesphere.exception.ResourceNotFoundException;
-import com.fawry.moviesphere.exception.UserAlreadyExistsException;
+import com.fawry.moviesphere.exception.ResourceAlreadyExistsException;
 import com.fawry.moviesphere.role.RoleRepository;
 import com.fawry.moviesphere.security.JwtService;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +29,7 @@ public class AuthenticationService {
 
     public void createUser(RegistrationRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
-            throw new UserAlreadyExistsException("Email already exists.");
+            throw new ResourceAlreadyExistsException("Email already exists.");
         }
         var userRole = roleRepository.findByName("USER")
                 .orElseThrow(() -> new ResourceNotFoundException("User role was not initiated."));

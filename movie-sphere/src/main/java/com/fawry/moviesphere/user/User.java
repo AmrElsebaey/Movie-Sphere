@@ -1,4 +1,4 @@
-package com.fawry.moviesphere.User;
+package com.fawry.moviesphere.user;
 
 import com.fawry.moviesphere.role.Role;
 import jakarta.persistence.*;

@@ -1,6 +1,6 @@
 package com.fawry.moviesphere.security;
 
-import com.fawry.moviesphere.User.UserRepository;
+import com.fawry.moviesphere.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
